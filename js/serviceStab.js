@@ -48,6 +48,7 @@ const Service = (function()
 					items: [
 						{
 							name: "Cat2-1",
+							isCollapse: true,
 							items: [
 								{
 									name: "Itsik Bitsik",

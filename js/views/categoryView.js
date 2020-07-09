@@ -8,10 +8,10 @@ const CategoryView = Backbone.View.extend({
 	// 	,"click .add-btn" : "addClick"
 	// },
 
-	expandClick: function ()
+	expandClick: function (isShift)
 	{
-		console.log('click');
-		this.model.expandCollapse(!this.model.get('isCollapse'));
+		// console.log('click');
+		this.model.expandCollapse(!this.model.get('isCollapse'), isShift);
 	},
 
 	addClick: function ()
@@ -28,20 +28,34 @@ const CategoryView = Backbone.View.extend({
 	initialize: function ()
 	{
 		this.$name = $('<span class="name"></span>');
+		this.$nameInput = $('<input class="name"></input>').hide();
 		this.$items = $('<ul class="items"></ul>');
 		this.$expandCollapse = $('<div class="expand-collapse"></div>');
 		this.$addBtn = $('<span class="add-btn"></span>');
 		this.$delBtn = $('<span class="del-btn"></span>');
 		this.$el.html(this.$name)
+			.append(this.$nameInput)
 			.append('<div class="v-line"></div>')
 			.append(this.$addBtn)
 			.append(this.$delBtn)
 			.append(this.$items)
 			.append(this.$expandCollapse)
 			.append('<div class="h-line"></div>');
+		this.bindEvents();
+
+		return this;
+	},
+
+	bindEvents: function ()
+	{
 		this.$addBtn.click(this.addClick.bind(this));
 		this.$delBtn.click(this.delClick.bind(this));
-		this.$expandCollapse.click(this.expandClick.bind(this));
+		this.$name.click(this.startEditName.bind(this));
+		this.$nameInput.blur(this.finishEditName.bind(this));
+		// this.$expandCollapse.click(this.expandClick.bind(this));
+		this.$expandCollapse.click( (e)=> this.expandClick(e.shiftKey));
+
+
 		// this.model.on('change:items', this.renderItems, this);
 		this.model.on('change:isCollapse', this.renderHeight, this);
 		this.listenTo(this.model, 'destroy', this.remove);
@@ -51,14 +65,27 @@ const CategoryView = Backbone.View.extend({
 		// items.on('change:length', this.onLengthChange, this);
 		// this.listenTo(items, 'reset', this.addAll);
 		// this.listenTo(items, 'all', this.render);
+	},
 
-		return this;
+	startEditName: function ()
+	{
+		const name = this.model.get('name');
+		this.$name.hide();
+		this.$nameInput.show().val(name).focus();
+	},
+
+	finishEditName: function ()
+	{
+		// NOTE: we don't allow empty name, so we use default name in this case:
+		const name = this.$nameInput.hide().val() || DEFAULT_CATEGORY_NAME;
+		this.$name.show().text(name);
+		this.model.set({name});
 	},
 
 	render: function ()
 	{
 		const name = this.model.get('name');
-		this.$name.html(name);
+		this.$name.text(name);
 		this.renderItems();
 		return this;
 	},
@@ -66,7 +93,7 @@ const CategoryView = Backbone.View.extend({
 	renderItems: function ()
 	{
 		const items = this.model.get('items');
-		console.log('renderItems', items.length);
+		// console.log('renderItems', items.length);
 		// this.$items.html('');
 		items.each((model)=> this.addOne(model));
 		this.onLengthChange();
@@ -74,7 +101,7 @@ const CategoryView = Backbone.View.extend({
 
 	onLengthChange: function ()
 	{
-		console.log('onLengthChange');
+		// console.log('onLengthChange');
 		const items = this.model.get('items');
 		if (items.length) {
 			this.$expandCollapse.show();
@@ -108,14 +135,14 @@ const CategoryView = Backbone.View.extend({
 		if (!this.model.get('isCollapse')) {
 			count += this.model.get('items').length;
 		}
-		console.log('renderHeight', count);
+		// console.log('renderHeight', count);
 		const height = (this.ITEM_HEIGHT * count) + 'px;';
 		this.$el.css({height});
 		// this.$el.css('height', height);
 		if (this.model.get('isCollapse')) {
-			this.$el.addClass('aaa');
+			this.$el.addClass('collapsed');
 		} else {
-			this.$el.removeClass('aaa');
+			this.$el.removeClass('collapsed');
 		}
 	}
 

@@ -29,7 +29,7 @@ const PanelView = Backbone.View.extend(
 				this.$status.text('Fail to get data');
 				break;
 			case DATA_STATUS.GET_SUCCESS:
-				this.$status.text('Got thedata at ' + this._getNowString());
+				this.$status.text('Got the data at ' + this._getNowString());
 				break;
 			case DATA_STATUS.SAVE_SUCCESS:
 				this.$status.text('Save the data at ' + this._getNowString());
