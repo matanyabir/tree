@@ -69,6 +69,5 @@ const Service = (function()
 		}
 	};
 
-
 	return me;
 })();

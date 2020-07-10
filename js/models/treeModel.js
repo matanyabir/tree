@@ -8,7 +8,7 @@ const TreeModel = Backbone.Model.extend(
 	// default values
 	defaults:
 	{
-		tree: null // new CategoryModel({}) // CategoryModel, the root
+		tree: null // CategoryModel, the root
 		,dataStatus: DATA_STATUS.NO_DATA // the status of the data in the "data" array
 	}
 
