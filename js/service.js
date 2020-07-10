@@ -18,6 +18,7 @@ const Service = (function()
 		appId: "1:603585070083:web:accd45d352a75213df7a36",
 		measurementId: "G-ND819P4FN7"
 	};
+
 	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig);
 	firebase.analytics();
@@ -34,9 +35,7 @@ const Service = (function()
 		try {
 			firebase.database().ref('/trees/' + id).once('value').then(function (snapshot) {
 				const val = snapshot.val();
-				console.log('gat data', val);
 				cbSuccess(val || {});
-				// const tree = val && val.tree;
 			});
 		} catch(err) {
 			cbFail()
@@ -57,7 +56,6 @@ const Service = (function()
 			firebase.database().ref('trees/' + id).set({
 				tree
 			}, function(error) {
-				console.log('set done', error);
 				if (error) {
 					// The write failed...
 					cbFail();

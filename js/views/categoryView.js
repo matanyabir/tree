@@ -3,36 +3,6 @@ const CategoryView = Backbone.View.extend({
 
 	ITEM_HEIGHT: 20,
 
-	// events: {
-	// 	"click .expand-collapse" : "expandClick"
-	// 	,"click .add-btn" : "addClick"
-	// },
-
-	expandClick: function (isShift)
-	{
-		// console.log('click');
-		this.model.expandCollapse(!this.model.get('isCollapse'), isShift);
-	},
-
-	addClick: function ()
-	{
-		const items = new ItemsCollection;
-		this.model.get('items').add({items});
-	},
-
-	delClick: function ()
-	{
-		this.model.destroy();
-	},
-	lockClick: function (isShift)
-	{
-		this.model.lock(true, isShift);
-	},
-	unlockClick: function (isShift)
-	{
-		this.model.lock(false, isShift);
-	},
-
 	initialize: function ()
 	{
 		this.$name = $('<span class="name"></span>');
@@ -70,17 +40,33 @@ const CategoryView = Backbone.View.extend({
 		this.$name.click(this.startEditName.bind(this));
 		this.$nameInput.blur(this.finishEditName.bind(this));
 
-
-		// this.model.on('change:items', this.renderItems, this);
 		this.model.on('change:isCollapse', this.renderHeight, this);
 		this.model.on('change:lock', this.renderLock, this);
 		this.listenTo(this.model, 'destroy', this.remove);
 		const items = this.model.get('items');
 		this.listenTo(items, 'add', this.onAdd);
 		this.listenTo(items, 'remove', this.onLengthChange);
-		// items.on('change:length', this.onLengthChange, this);
-		// this.listenTo(items, 'reset', this.addAll);
-		// this.listenTo(items, 'all', this.render);
+	},
+	expandClick: function (isShift)
+	{
+		this.model.expandCollapse(!this.model.get('isCollapse'), isShift);
+	},
+	addClick: function ()
+	{
+		const items = new ItemsCollection;
+		this.model.get('items').add({items});
+	},
+	delClick: function ()
+	{
+		this.model.destroy();
+	},
+	lockClick: function (isShift)
+	{
+		this.model.lock(true, isShift);
+	},
+	unlockClick: function (isShift)
+	{
+		this.model.lock(false, isShift);
 	},
 
 	startEditName: function ()
@@ -116,14 +102,11 @@ const CategoryView = Backbone.View.extend({
 
 	onLengthChange: function ()
 	{
-		// console.log('onLengthChange');
 		const items = this.model.get('items');
 		if (items.length) {
 			this.$expandCollapse.show();
-			// this.$expandCollapse.removeClass('hidden');
 		} else {
 			this.$expandCollapse.hide();
-			// this.$expandCollapse.addClass('hidden');
 		}
 		this.renderHeight();
 	},

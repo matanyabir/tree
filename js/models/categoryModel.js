@@ -8,17 +8,12 @@ const CategoryModel = Backbone.Model.extend(
 	// default values
 	defaults:
 	{
-		items: null // ItemsCollection, the children, collection of CategoryModel
+		items: null // ItemsCollection ( = collection of CategoryModel), the children
 		,name: DEFAULT_CATEGORY_NAME // the category name
 		,isCollapse: false // the expand/collapse state
 		,lock: false // the lock state
-		// ,isRoot: false // are we the root of the tree
 	}
 
-	// ,initialize: function () {
-	// 	const items = new ItemsCollection;
-	// 	this.set({items});
-	// }
 	/**
 	 * recursively init all the items from JSON
 	 * @param data: the {items, name, isCollapse, lock} JSON
@@ -54,16 +49,6 @@ const CategoryModel = Backbone.Model.extend(
 		});
 		return {isCollapse, name, items, lock};
 	}
-
-	// /**
-	// * add a new item to the items list
-	// */
-	// ,addItem: function ()
-	// {
-	// 	const items = this.get('items').concat(new CategoryModel({}));
-	// 	console.log('addItem', items.length - 1);
-	// 	this.set('items', items);
-	// }
 
 	,expandCollapse: function (isCollapse, isRecursive)
 	{
