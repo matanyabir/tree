@@ -1,8 +1,4 @@
-﻿.collapsed {
-	height: 20px;
-}
-
-.container {
+﻿.container {
 	padding: 10px;
 	margin: 10px;
 	border: 1px solid #a4e4ff;
@@ -37,12 +33,15 @@
 .category {
 	position: relative;
 	padding-left: 10px;
-	transition: all ease-in-out 0.4s;
+	transition: opacity ease-in-out 0.4s;
 	overflow: hidden;
 }
 /* for fade animation: */
 .phantom {
 	opacity: 0;
+}
+.collapsed>.items {
+	display: none;
 }
 
 /* hack for hide the v-line of father: */

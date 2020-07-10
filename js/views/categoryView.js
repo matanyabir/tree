@@ -1,8 +1,6 @@
 const CategoryView = Backbone.View.extend({
 	className: 'category phantom',
 
-	ITEM_HEIGHT: 20,
-
 	initialize: function ()
 	{
 		this.$name = $('<span class="name"></span>');
@@ -40,7 +38,7 @@ const CategoryView = Backbone.View.extend({
 		this.$name.click(this.startEditName.bind(this));
 		this.$nameInput.blur(this.finishEditName.bind(this));
 
-		this.model.on('change:isCollapse', this.renderHeight, this);
+		this.model.on('change:isCollapse', this.renderCollapse, this);
 		this.model.on('change:lock', this.renderLock, this);
 		this.listenTo(this.model, 'destroy', this.remove);
 		const items = this.model.get('items');
@@ -112,7 +110,6 @@ const CategoryView = Backbone.View.extend({
 		} else {
 			this.$expandCollapse.hide();
 		}
-		this.renderHeight();
 	},
 
 	onAdd: function (model)
@@ -128,17 +125,8 @@ const CategoryView = Backbone.View.extend({
 		this.$items.append(categoryView.render().$el);
 	},
 
-	/* calc the height of the category, depends on items count and isCollapse state (we
-	 * need to calc it (instead of "auto") because we want animation...
-	 */
-	renderHeight: function ()
+	renderCollapse: function ()
 	{
-		let count = 1;
-		if (!this.model.get('isCollapse')) {
-			count += this.model.get('items').length;
-		}
-		const height = (this.ITEM_HEIGHT * count) + 'px;';
-		this.$el.css({height});
 		if (this.model.get('isCollapse')) {
 			this.$el.addClass('collapsed');
 		} else {
