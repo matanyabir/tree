@@ -9,8 +9,8 @@ const PanelView = Backbone.View.extend(
 
 	initialize: function ()
 	{
-		this.$refreshButton = $('<button type="button" class="refresh">Refresh</button>');
-		this.$saveButton = $('<button type="button" class="save">Save</button>');
+		this.$refreshButton = $('<span class="main-btn refresh">Refresh</span>');
+		this.$saveButton = $('<span class="main-btn save">Save</span>');
 		this.$status = $('<h5 class="status"></h5>');
 		this.$el.html(this.$refreshButton)
 			.append(this.$saveButton)
@@ -21,8 +21,8 @@ const PanelView = Backbone.View.extend(
 
 	render: function ()
 	{
-		this.$refreshButton.show();
-		this.$saveButton.show();
+		this.$refreshButton.removeClass('disabled');
+		this.$saveButton.removeClass('disabled');
 		switch (this.model.get('dataStatus'))
 		{
 			case DATA_STATUS.FAIL:
@@ -38,8 +38,8 @@ const PanelView = Backbone.View.extend(
 				this.$status.text('No data');
 				break;
 			case DATA_STATUS.LOADING:
-				this.$refreshButton.hide();
-				this.$saveButton.hide();
+				this.$refreshButton.addClass('disabled');
+				this.$saveButton.addClass('disabled');
 				this.$status.text('Loading...');
 				break;
 		}

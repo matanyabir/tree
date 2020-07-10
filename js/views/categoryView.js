@@ -28,19 +28,21 @@ const CategoryView = Backbone.View.extend({
 	initialize: function ()
 	{
 		this.$name = $('<span class="name"></span>');
-		this.$nameInput = $('<input class="name"></input>').hide();
+		this.$nameInput = $('<input class="name" />').hide();
 		this.$items = $('<ul class="items"></ul>');
-		this.$expandCollapse = $('<div class="expand-collapse"></div>');
-		this.$addBtn = $('<span class="add-btn"></span>');
-		this.$delBtn = $('<span class="del-btn"></span>');
-		this.$el.html(this.$name)
+		this.$expandCollapse = $('<div class="expand-collapse"><svg class="icon dropdown"><use href="svgs/sprite/sprite.svg#icon-dropdown" /></svg></div>');
+		this.$addBtn = $('<span class="action add-btn"><svg class="icon plus"><use href="svgs/sprite/sprite.svg#icon-plus" /></svg></span>');
+		this.$delBtn = $('<span class="action del-btn"><svg class="icon delete"><use href="svgs/sprite/sprite.svg#icon-delete" /></svg></span>');
+		const $rowContainer = $('<div class="row"></div>')
+			.append(this.$name)
 			.append(this.$nameInput)
-			.append('<div class="v-line"></div>')
 			.append(this.$addBtn)
-			.append(this.$delBtn)
+			.append(this.$delBtn);
+		this.$el.html($rowContainer)
+			.append('<div class="v-line"></div>')
+			.append('<div class="h-line"></div>')
 			.append(this.$items)
-			.append(this.$expandCollapse)
-			.append('<div class="h-line"></div>');
+			.append(this.$expandCollapse);
 		this.bindEvents();
 
 		return this;
