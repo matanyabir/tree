@@ -9,7 +9,6 @@ const TreeView = Backbone.View.extend({
 
 	render: function ()
 	{
-		console.log('aaa111');
 		const categoryModel = this.model.get('tree');
 		if (categoryModel)
 		{

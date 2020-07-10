@@ -90,11 +90,12 @@ input.name {
 	height: 1px;
 	background-color: #488dff;
 }
-
+.tree .expand-collapse {
+	position: absolute;
+}
 .expand-collapse {
 	cursor: pointer;
 	transition: transform ease-in-out 0.4s;
-	position: absolute;
 	left: 4px;
 	top: 4px;
 	width: 14px;
@@ -141,17 +142,17 @@ input.name:focus~.action {
 .locked>.del-btn, .locked>.add-btn, .locked>.lock-btn {
 	display: none
 }
-.unlock-btn {
+.tree .unlock-btn {
 	display: none
 }
-.locked>.unlock-btn {
+.tree .locked>.unlock-btn {
 	display: inline-block;
 }
 
 .icon {
 	color: #777777
 }
-.icon.dropdown {
+.expand-collapse .icon.dropdown {
 	position: absolute;
 	top: 4px;
 	left: 1px;
@@ -192,4 +193,36 @@ input.name:focus~.action {
 }
 .unlock-btn:hover>.icon {
 	color: #488dff;
+}
+
+
+/* ------------- Help -------------- */
+.help {
+	color: #488dff;
+}
+.toggle-help {
+	cursor: pointer;
+}
+.toggle {
+	color: #488dff;
+	transition: transform ease-in-out 0.4s;
+	width: 18px;
+	height: 12px;
+}
+.expand .toggle {
+	transform: rotate(180deg);
+}
+.help-content {
+	height: 0;
+	transition: height 0.4s ease-in-out;
+	overflow: hidden;
+}
+.expand .help-content {
+	height: 250px;
+}
+.bold {
+	font-weight: bold;
+}
+.help .expand-collapse {
+	display: inline-block;
 }
