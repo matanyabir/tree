@@ -8,6 +8,7 @@
   "main": "index.js",
   "dependencies": {
     "backbone": "^1.4.0",
+    "http-server": "^0.12.3",
     "jquery": "^3.5.1",
     "underscore": "^1.10.2"
   },
