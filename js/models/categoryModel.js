@@ -27,11 +27,13 @@ const CategoryModel = Backbone.Model.extend(
 	{
 		const {isCollapse, name, lock} = data;
 		const items = new ItemsCollection;
-		data.items.forEach((item)=> {
-			const categoryModel = new CategoryModel({});
-			categoryModel.buildFromJson(item);
-			items.add(categoryModel);
-		});
+		if (data.items) {
+			data.items.forEach((item) => {
+				const categoryModel = new CategoryModel({});
+				categoryModel.buildFromJson(item);
+				items.add(categoryModel);
+			});
+		}
 		this.set({isCollapse, name, items, lock});
 		return this;
 	}
