@@ -1,14 +1,11 @@
-﻿/*.hidden {*/
-/*	display: none;*/
-/*}*/
-.collapsed {
+﻿.collapsed {
 	height: 20px;
 }
 
 .container {
 	padding: 10px;
 	margin: 10px;
-	border: 1px solid #dddddd;
+	border: 1px solid #a4e4ff;
 	background-color: #ffffff;
 }
 
@@ -73,7 +70,8 @@ span.name {
 input.name {
 	margin: 0 0 0 10px;
 	padding: 2px 10px;
-	width: 100px
+	width: 120px;
+	background-color: #cfebf7;
 }
 
 .v-line {
@@ -128,23 +126,12 @@ input.name:focus~.action {
 	display: none;
 }
 
-.add-btn {
-	/*cursor: pointer;*/
-	/*display: inline-block;*/
-	/*width: 7px;*/
-	/*height: 7px;*/
-	/*background-color: green;*/
-}
-
-.del-btn {
-	/*cursor: pointer;*/
-	/*display: inline-block;*/
-	/*width: 7px;*/
-	/*height: 7px;*/
-	/*background-color: blue;*/
-}
 /* we don't want to enable the delete tree on the root */
 .tree>.category>.row>.del-btn {
+	display: none
+}
+/* we don't want the h-line on the root */
+.tree>.category>.h-line {
 	display: none
 }
 
