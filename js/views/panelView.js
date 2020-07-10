@@ -26,7 +26,7 @@ const PanelView = Backbone.View.extend(
 		switch (this.model.get('dataStatus'))
 		{
 			case DATA_STATUS.FAIL:
-				this.$status.text('Fail to get data');
+				this.$status.text('Fail :( ');
 				break;
 			case DATA_STATUS.GET_SUCCESS:
 				this.$status.text('Got the data at ' + this._getNowString());

@@ -26,6 +26,7 @@
 	background-color: #60c1ff;
 }
 .main-btn.disabled {
+	pointer-events: none;
 	color: #dddddd;
 	background-color: #aaaaaa;
 }
@@ -188,7 +189,7 @@ input.name:focus~.action {
 	color: #00c800;
 }
 .icon.lock {
-	margin-top: 1px;
+	/*margin-top: 1px;*/
 	width: 12px;
 	height: 17px;
 }
@@ -196,7 +197,6 @@ input.name:focus~.action {
 	color: #488dff;
 }
 .icon.open {
-	margin-top: 1px;
 	width: 12px;
 	height: 18px;
 }

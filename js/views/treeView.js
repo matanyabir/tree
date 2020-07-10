@@ -3,15 +3,16 @@ const TreeView = Backbone.View.extend({
 
 	initialize: function ()
 	{
-		this.model.on('change:dataStatus', this.render, this);
+		this.model.on('change:tree', this.render, this);
 		return this;
 	},
 
 	render: function ()
 	{
-		if (this.model.get('dataStatus') === DATA_STATUS.GET_SUCCESS)
+		console.log('aaa111');
+		const categoryModel = this.model.get('tree');
+		if (categoryModel)
 		{
-			const categoryModel = this.model.get('tree');
 			const categoryView = new CategoryView({model: categoryModel});
 			this.$el.html(categoryView.render().$el);
 		}

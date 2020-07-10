@@ -15,6 +15,10 @@ const CategoryModel = Backbone.Model.extend(
 		// ,isRoot: false // are we the root of the tree
 	}
 
+	// ,initialize: function () {
+	// 	const items = new ItemsCollection;
+	// 	this.set({items});
+	// }
 	/**
 	 * recursively init all the items from JSON
 	 * @param data: the {items, name, isCollapse, lock} JSON
@@ -38,8 +42,8 @@ const CategoryModel = Backbone.Model.extend(
 	*/
 	,getJson: function ()
 	{
-		const isCollapse = this.get('isCollapse');
-		const lock = this.get('lock');
+		const isCollapse = this.get('isCollapse') || false;
+		const lock = this.get('lock') || false;
 		const name = this.get('name');
 		const collection = this.get('items');
 		const items = [];

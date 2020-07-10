@@ -8,7 +8,7 @@ const TreeModel = Backbone.Model.extend(
 	// default values
 	defaults:
 	{
-		tree: new CategoryModel({}) // the root
+		tree: null // new CategoryModel({}) // CategoryModel, the root
 		,dataStatus: DATA_STATUS.NO_DATA // the status of the data in the "data" array
 	}
 
@@ -19,22 +19,30 @@ const TreeModel = Backbone.Model.extend(
 	{
 		this.set({dataStatus: DATA_STATUS.LOADING});
 		Service.getData((data)=> {
+			console.log('gggg');
 			// const isRoot = true;
-			const tree = new CategoryModel({});
 			if (data.tree) {
+				const tree = new CategoryModel({});
 				tree.buildFromJson(data.tree);
+				this.set({
+					dataStatus: DATA_STATUS.GET_SUCCESS,
+					tree
+				});
 			}
-			this.set({
-				dataStatus: data.tree ? DATA_STATUS.GET_SUCCESS : DATA_STATUS.NO_DATA,
-				tree
-			});
+			else {
+				this.set({
+					dataStatus: DATA_STATUS.NO_DATA,
+					tree: this._getEmptyTree()
+				});
+			}
 		}, ()=> {
 			this.set({
 				dataStatus: DATA_STATUS.FAIL,
-				tree: new CategoryModel({})
+				tree: this._getEmptyTree()
 			});
 		});
 	}
+
 
 	/**
 	* save all the data to the service.
@@ -52,6 +60,17 @@ const TreeModel = Backbone.Model.extend(
 				dataStatus: DATA_STATUS.FAIL
 			});
 		});
+	}
+
+	/**
+	* create a new empty tree, e.g.: if no data
+	* @return tree - the root CategoryModel
+	*/
+	,_getEmptyTree: function ()
+	{
+		const tree = new CategoryModel({});
+		tree.buildFromJson({items: [], name: DEFAULT_CATEGORY_NAME});
+		return tree;
 	}
 
 });

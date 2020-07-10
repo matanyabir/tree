@@ -4,7 +4,7 @@ const DATA_STATUS = {
 	,LOADING: 1
 	,FAIL: 2
 	,GET_SUCCESS: 3
-	,SAVE_SUCCESS: 3
+	,SAVE_SUCCESS: 4
 };
 
 const DEFAULT_CATEGORY_NAME = "Category";

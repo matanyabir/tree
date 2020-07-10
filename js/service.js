@@ -1,9 +1,26 @@
 /**
  * This module is responsible for get the data from the service
  */
-var Service = (function()
+const Service = (function()
 {
-	var me = {};
+	const me = {};
+
+	const id = 'myId';
+
+	// Your web app's Firebase configuration
+	const firebaseConfig = {
+		apiKey: "AIzaSyD_kV5QT1bQPDOH0z-TE8nxfa4_7VRAZOI",
+		authDomain: "matanya-wix.firebaseapp.com",
+		databaseURL: "https://matanya-wix.firebaseio.com",
+		projectId: "matanya-wix",
+		storageBucket: "matanya-wix.appspot.com",
+		messagingSenderId: "603585070083",
+		appId: "1:603585070083:web:accd45d352a75213df7a36",
+		measurementId: "G-ND819P4FN7"
+	};
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+	firebase.analytics();
 
 	/**
 	 * get the data from the service
@@ -14,13 +31,46 @@ var Service = (function()
 	 */
 	me.getData = function(cbSuccess, cbFail)
 	{
-		// Run the "server.js", so the "http://localhost:3000/" will return "http://ec2-52-18-187-100.eu-west-1.compute.amazonaws.com:2503/" without cross-domain stuff...
-		$.get("http://localhost:3000/", function( data ) {
-			cbSuccess( data );
-		}).fail(function(){
-			cbFail();
-		});
-	}
+		try {
+			firebase.database().ref('/trees/' + id).once('value').then(function (snapshot) {
+				const val = snapshot.val();
+				console.log('gat data', val);
+				cbSuccess(val || {});
+				// const tree = val && val.tree;
+			});
+		} catch(err) {
+			cbFail()
+		}
+	};
+
+	/**
+	 * set the data to the service
+	 *
+	 * @param {object} tree - the json that represent the tree
+	 * @param {function} cbSuccess - the callback that should be call in case of success
+	 * @param {function} cbFail - the callback that should be call in case of fail
+	 * @author Matanya
+	 */
+	me.setData = function(tree, cbSuccess, cbFail)
+	{
+		try {
+			firebase.database().ref('trees/' + id).set({
+				tree
+			}, function(error) {
+				console.log('set done', error);
+				if (error) {
+					// The write failed...
+					cbFail();
+				} else {
+					// Data saved successfully!
+					cbSuccess();
+				}
+			});
+		} catch(err) {
+			cbFail()
+		}
+	};
+
 
 	return me;
 })();
