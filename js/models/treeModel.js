@@ -19,8 +19,6 @@ const TreeModel = Backbone.Model.extend(
 	{
 		this.set({dataStatus: DATA_STATUS.LOADING});
 		Service.getData((data)=> {
-			console.log('gggg');
-			// const isRoot = true;
 			if (data.tree) {
 				const tree = new CategoryModel({});
 				tree.buildFromJson(data.tree);

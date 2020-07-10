@@ -4,16 +4,19 @@ const PanelView = Backbone.View.extend(
 
 	events: {
 		"click .refresh": "refreshClick",
-		"click .save": "saveClick"
+		"click .save": "saveClick",
+		"click .example": "exampleClick"
   	},
 
 	initialize: function ()
 	{
 		this.$refreshButton = $('<span class="main-btn refresh">Refresh</span>');
 		this.$saveButton = $('<span class="main-btn save">Save</span>');
+		this.$exampleButton = $('<span class="main-btn example">Create Example Tree</span>');
 		this.$status = $('<h5 class="status"></h5>');
 		this.$el.html(this.$refreshButton)
 			.append(this.$saveButton)
+			.append(this.$exampleButton)
 			.append(this.$status);
 		this.model.on('change:dataStatus', this.render, this);
 		return this;
@@ -54,6 +57,14 @@ const PanelView = Backbone.View.extend(
 	refreshClick: function ()
 	{
 		this.model.loadData();
+	},
+
+	exampleClick: function ()
+	{
+		const tree = new CategoryModel({});
+		tree.buildFromJson(EXAMPLE_TREE);
+
+		this.model.set({tree});
 	},
 
 	/**
