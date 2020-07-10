@@ -1,0 +1,17 @@
+{
+  "name": "WixTree",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "description": "The WIX Tree Project",
+  "main": "index.js",
+  "dependencies": {
+    "backbone": "^1.4.0",
+    "jquery": "^3.5.1",
+    "underscore": "^1.10.2"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "author": "Matanya"
+}
