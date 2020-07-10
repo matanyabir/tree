@@ -1,5 +1,5 @@
 const CategoryView = Backbone.View.extend({
-	className: 'category',
+	className: 'category phantom',
 
 	ITEM_HEIGHT: 20,
 
@@ -58,7 +58,9 @@ const CategoryView = Backbone.View.extend({
 	},
 	delClick: function ()
 	{
-		this.model.destroy();
+		// the class + TO for animation
+		this.$el.addClass('phantom');
+		setTimeout( ()=>this.model.destroy(), 400);
 	},
 	lockClick: function (isShift)
 	{
@@ -90,6 +92,8 @@ const CategoryView = Backbone.View.extend({
 		this.$name.text(name);
 		this.renderItems();
 		this.renderLock();
+		// fade in animation:
+		setTimeout( ()=>this.$el.removeClass('phantom'), 0);
 		return this;
 	},
 
@@ -133,10 +137,8 @@ const CategoryView = Backbone.View.extend({
 		if (!this.model.get('isCollapse')) {
 			count += this.model.get('items').length;
 		}
-		// console.log('renderHeight', count);
 		const height = (this.ITEM_HEIGHT * count) + 'px;';
 		this.$el.css({height});
-		// this.$el.css('height', height);
 		if (this.model.get('isCollapse')) {
 			this.$el.addClass('collapsed');
 		} else {
@@ -148,7 +150,6 @@ const CategoryView = Backbone.View.extend({
 	 */
 	renderLock: function ()
 	{
-		console.log('renderLock', this.model.get('lock'));
 		if (this.model.get('lock')) {
 			this.$rowContainer.addClass('locked');
 		} else {

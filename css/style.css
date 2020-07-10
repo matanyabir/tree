@@ -40,8 +40,12 @@
 .category {
 	position: relative;
 	padding-left: 10px;
-	transition: height ease-in-out 0.4s;
+	transition: all ease-in-out 0.4s;
 	overflow: hidden;
+}
+/* for fade animation: */
+.phantom {
+	opacity: 0;
 }
 
 /* hack for hide the v-line of father: */
