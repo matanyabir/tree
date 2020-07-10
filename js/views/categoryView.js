@@ -24,6 +24,14 @@ const CategoryView = Backbone.View.extend({
 	{
 		this.model.destroy();
 	},
+	lockClick: function (isShift)
+	{
+		this.model.lock(true, isShift);
+	},
+	unlockClick: function (isShift)
+	{
+		this.model.lock(false, isShift);
+	},
 
 	initialize: function ()
 	{
@@ -33,12 +41,16 @@ const CategoryView = Backbone.View.extend({
 		this.$expandCollapse = $('<div class="expand-collapse"><svg class="icon dropdown"><use href="svgs/sprite/sprite.svg#icon-dropdown" /></svg></div>');
 		this.$addBtn = $('<span class="action add-btn"><svg class="icon plus"><use href="svgs/sprite/sprite.svg#icon-plus" /></svg></span>');
 		this.$delBtn = $('<span class="action del-btn"><svg class="icon delete"><use href="svgs/sprite/sprite.svg#icon-delete" /></svg></span>');
-		const $rowContainer = $('<div class="row"></div>')
+		this.$lockBtn = $('<span class="action lock-btn"><svg class="icon lock"><use href="svgs/sprite/sprite.svg#icon-lock" /></svg></span>');
+		this.$unlockBtn = $('<span class="action unlock-btn"><svg class="icon open"><use href="svgs/sprite/sprite.svg#icon-open" /></svg></span>');
+		this.$rowContainer = $('<div class="row"></div>')
 			.append(this.$name)
 			.append(this.$nameInput)
 			.append(this.$addBtn)
-			.append(this.$delBtn);
-		this.$el.html($rowContainer)
+			.append(this.$delBtn)
+			.append(this.$lockBtn)
+			.append(this.$unlockBtn);
+		this.$el.html(this.$rowContainer)
 			.append('<div class="v-line"></div>')
 			.append('<div class="h-line"></div>')
 			.append(this.$items)
@@ -52,14 +64,16 @@ const CategoryView = Backbone.View.extend({
 	{
 		this.$addBtn.click(this.addClick.bind(this));
 		this.$delBtn.click(this.delClick.bind(this));
+		this.$lockBtn.click((e)=> this.lockClick(e.shiftKey));
+		this.$unlockBtn.click((e)=> this.unlockClick(e.shiftKey));
+		this.$expandCollapse.click( (e)=> this.expandClick(e.shiftKey));
 		this.$name.click(this.startEditName.bind(this));
 		this.$nameInput.blur(this.finishEditName.bind(this));
-		// this.$expandCollapse.click(this.expandClick.bind(this));
-		this.$expandCollapse.click( (e)=> this.expandClick(e.shiftKey));
 
 
 		// this.model.on('change:items', this.renderItems, this);
 		this.model.on('change:isCollapse', this.renderHeight, this);
+		this.model.on('change:lock', this.renderLock, this);
 		this.listenTo(this.model, 'destroy', this.remove);
 		const items = this.model.get('items');
 		this.listenTo(items, 'add', this.onAdd);
@@ -89,14 +103,13 @@ const CategoryView = Backbone.View.extend({
 		const name = this.model.get('name');
 		this.$name.text(name);
 		this.renderItems();
+		this.renderLock();
 		return this;
 	},
 
 	renderItems: function ()
 	{
 		const items = this.model.get('items');
-		// console.log('renderItems', items.length);
-		// this.$items.html('');
 		items.each((model)=> this.addOne(model));
 		this.onLengthChange();
 	},
@@ -145,6 +158,18 @@ const CategoryView = Backbone.View.extend({
 			this.$el.addClass('collapsed');
 		} else {
 			this.$el.removeClass('collapsed');
+		}
+	},
+
+	/* change the lock-state
+	 */
+	renderLock: function ()
+	{
+		console.log('renderLock', this.model.get('lock'));
+		if (this.model.get('lock')) {
+			this.$rowContainer.addClass('locked');
+		} else {
+			this.$rowContainer.removeClass('locked');
 		}
 	}
 

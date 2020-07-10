@@ -41,6 +41,7 @@ const Service = (function()
 			items: [
 				{
 					name: "Cat1",
+					lock: true,
 					items: []
 				},
 				{
